@@ -2,7 +2,7 @@ import './App.css';
 import Loginscreen from './LoginScreen'
 
 import React, { Component } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 // injectTapEventPlugin();

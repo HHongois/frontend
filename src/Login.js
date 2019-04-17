@@ -23,16 +23,17 @@ class Login extends Component {
         "email":this.state.email,
         "password":this.state.password
         }
+        console.log(payload);
         axios.post(apiBaseUrl+'connexion/signIn', payload)
         .then(function (response) {
-        console.log(response);
-        if(response.data.code == 200){
+        console.log(response.data);
+        if(response.status == 200){
         console.log("Login successfull");
         var uploadScreen=[];
         uploadScreen.push(<UploadScreen appContext={self.props.appContext}/>)
         self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
         }
-        else if(response.data.code == 204){
+        else if(response.status == 204){
         console.log("Username password do not match");
         alert("username password do not match")
         }
@@ -56,7 +57,7 @@ class Login extends Component {
                <TextField
                  hintText="Enter your Email"
                  floatingLabelText="Username"
-                 onChange = {(event,newValue) => this.setState({username:newValue})}
+                 onChange = {(event,newValue) => this.setState({email:newValue})}
                  />
                <br/>
                  <TextField

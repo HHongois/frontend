@@ -41,10 +41,14 @@ class Register extends Component {
        buttonLabel:"Register",
        isLogin:true
         });
+     }else if ( response.data.code == 400){
+       console.log(response.data);
      }
    })
    .catch(function (error) {
-     console.log(error);
+     console.log(error.response.data.error );
+     self.setState({email : error.response.data.error})
+     console.log(self.state.email);
    });
   }
 
@@ -71,6 +75,7 @@ class Register extends Component {
            <TextField
              hintText="Enter your Email"
              type="email"
+             value= {this.state.email}
              floatingLabelText="Email"
              onChange = {(event,newValue) => this.setState({email:newValue})}
              />
