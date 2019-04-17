@@ -15,7 +15,7 @@ class UploadScreen extends Component {
         results: []
       }
 
-     getInfo = () => {
+    getInfo = () => {
     axios.get(`${API_URL}?api_key=${API_KEY}&prefix=${this.state.query}&limit=7`)
       .then(({ data }) => {
         this.setState({
@@ -26,6 +26,7 @@ class UploadScreen extends Component {
   }
 
   handleInputChange = () => {
+    console.log('ici')
     this.setState({
       query: this.search.value
     }, () => {
@@ -38,6 +39,7 @@ class UploadScreen extends Component {
   }
 
   render() {
+    console.log('uploadscreen')
     return (
       <form>
         <input

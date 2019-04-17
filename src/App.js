@@ -1,7 +1,11 @@
 import './App.css';
 import Loginscreen from './LoginScreen'
-
+import PrimarySearchAppBar from './PrimarySearchAppBar'
 import React, { Component } from 'react';
+import ListRoute from './ListRoute';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
+
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -11,7 +15,8 @@ class App extends Component {
     super(props);
     this.state={
       loginPage:[],
-      uploadScreen:[]
+      uploadScreen:[],
+      primarySearchAppBar:[]
     }
   }
   componentWillMount(){
@@ -22,9 +27,14 @@ class App extends Component {
     })
   }
   render() {
+    console.log('acceuil')
+
     return (
       <div className="App">
-        {this.state.loginPage}
+      <Router>
+      <PrimarySearchAppBar/>
+      <ListRoute/>
+      </Router>
         {this.state.uploadScreen}
       </div>
     );
