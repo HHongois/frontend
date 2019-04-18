@@ -95,6 +95,11 @@ const styles = theme => ({
             display: 'none',
         },
     },
+    lien:{
+        color:'white',
+        textDecoration: 'none',
+
+    }
 });
 
 class PrimarySearchAppBar extends Component {
@@ -173,7 +178,7 @@ class PrimarySearchAppBar extends Component {
                             <MenuIcon />
                         </IconButton>
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                        <Button color="white"><Link to={'/home'} className="nav-link">Chatgram</Link></Button>
+                        <Button color="white"><Link to={'/home'} className={classes.lien}>Chatgram</Link></Button>
             </Typography>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
@@ -189,8 +194,8 @@ class PrimarySearchAppBar extends Component {
                                 onChange={this.handleInputChange}
                             />
                         </div>
-                        <Button color="white"><Link to={'/signIn'} className="nav-link">sign In</Link></Button>
-                        <Button color="inherit"><Link to={'/signUp'} className="nav-link">sign Up</Link></Button>
+                        <Button color="white"><Link to={'/signIn'} className={classes.lien}>sign In</Link></Button>
+                        <Button color="inherit"><Link to={'/signUp'} className={classes.lien}>sign Up</Link></Button>
 
 
                         <div className={classes.grow} />

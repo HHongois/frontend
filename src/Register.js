@@ -5,6 +5,68 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './Login';
+import { withStyles } from '@material-ui/core/styles';
+
+
+
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
+  container: {
+    // display: 'flex',
+    // flexWrap: 'wrap',
+  },
+  textField: {
+    // marginLeft: theme.spacing.unit,
+    // marginRight: theme.spacing.unit,
+  },
+  dense: {
+    marginTop: 16,
+  },
+  menu: {
+    width: 200,
+  },main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
+  },
+
+});
 class Register extends Component {
   constructor(props){
     super(props);
@@ -16,7 +78,8 @@ class Register extends Component {
     }
   }
 
-  handleClick(event){
+  handleSubmit(event){
+    event.preventDefault();
     var apiBaseUrl = "http://localhost:4000/api";
     console.log("values",this.state.first_name,this.
     state.last_name,this.state.email,this.state.password);
@@ -32,7 +95,7 @@ class Register extends Component {
    .then(function (response) {
      console.log(response);
      if(response.data.code == 200){
-      //  console.log("registration successfull");
+        console.log("registration successfull");
        var loginscreen=[];
        loginscreen.push(<Login parentContext={this}/>);
        var loginmessage = "Not Registered yet.Go to registration";
@@ -52,52 +115,79 @@ class Register extends Component {
    });
   }
 
+  handleChangeFirstName = event => {
+    this.setState({
+      first_name: event.target.value
+    });
+  }
+
+  handleChangeLastName = event => {
+    this.setState({
+      last_name: event.target.value
+    });
+  }
+  handleChangeMail = event => {
+    this.setState({
+      email: event.target.value
+    });
+  }
+
+  handleChangePassword = event => {
+    this.setState({
+      password: event.target.value
+    });
+  }
+
   render() {
-    return (
-      <div>
-        <MuiThemeProvider>
-          <div>
-         
-           <TextField
-             hintText="Enter your First Name"
-             floatingLabelText="First Name"
-             onChange = {(event,newValue) => this.setState({first_name:newValue})}
-             />
-           <br/>
-           <TextField
-             hintText="Enter your Last Name"
-             floatingLabelText="Last Name"
-             onChange = {(event,newValue) => this.setState({last_name:newValue})}
-             />
-           <br/>
-           <TextField
-             hintText="Enter your Email"
-             type="email"
-             value= {this.state.email}
-             floatingLabelText="Email"
-             onChange = {(event,newValue) => this.setState({email:newValue})}
-             />
-           <br/>
-           <TextField
-             type = "password"
-             hintText="Enter your Password"
-             floatingLabelText="Password"
-             onChange = {(event,newValue) => this.setState({password:newValue})}
-             />
-           <br/>
-           <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
-           
-          </div>
-         </MuiThemeProvider>
-      </div>
+    const { classes } = this.props;
 
+    return (        
 
+<div className={classes.main}>
+      <CssBaseline />
+      <Paper className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign Up
+        </Typography>
+        <form className={classes.form} onSubmit={(event) => this.handleSubmit(event)} >
+
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="fisrtName">First Name</InputLabel>
+            <Input id="fisrtName" name="fisrtName" type="text" autoFocus value={this.state.first_name} onChange={this.handleChangeFirstName}/>
+          </FormControl>
+
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="lastName">Last Name</InputLabel>
+            <Input name="lastName" type="text" id="lastName"  autoFocus value={this.state.last_name} onChange={this.handleChangeLastName} />
+          </FormControl>
+
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <Input id="email" name="email" autoComplete="email" autoFocus value={this.state.email} onChange={this.handleChangeMail}/>
+          </FormControl>
+
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input name="password" type="password" id="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChangePassword}/>
+          </FormControl>
+          
+          <Button type="submit"  fullWidth variant="contained" color="primary" className={classes.submit} value="Post">
+            Sign Up
+          </Button>
+        </form>
+      </Paper>
+    </div>
 
     );
   }
 }
+Register.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 const style = {
   margin: 15,
 };
-
-export default Register;
+export default withStyles(styles)(Register);

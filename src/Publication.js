@@ -18,16 +18,24 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { AutoComplete } from 'material-ui';
 // import testimg from './assets/img/salmaHayek';
 
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    // margin:'auto',
+    marginLeft:'auto',
+    marginRight:'auto',
+  },
+  grid:{
+    marginTop:'15px',
+    marginLeft:'auto',
+    marginRight:'auto',
   },
   card: {
     maxWidth: 400,
-    marginLeft: '100px',
   },
   media: {
     height: 0,
@@ -83,10 +91,10 @@ class Publication extends Component {
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={24}>
+        <Grid container spacing={4}>
 
-          <Grid xs={8}>
-            <Card xs={8} className={classes.card}>
+          <Grid xs={4} className={classes.grid}>
+            <Card  className={classes.card}>
               <CardHeader
                 avatar={
                   <Avatar aria-label="Recipe" className={classes.avatar}>
@@ -131,15 +139,10 @@ class Publication extends Component {
               </Collapse>
             </Card>
           </Grid>
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <Paper className={classes.paper}>xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.paper}>xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.paper}>xs=3</Paper>
-          </Grid>
+          </Grid> */}
+         
         </Grid>
       </div>
     );
