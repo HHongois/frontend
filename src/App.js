@@ -3,6 +3,7 @@ import Loginscreen from './LoginScreen'
 import PrimarySearchAppBar from './PrimarySearchAppBar'
 import React, { Component } from 'react';
 import ListRoute from './ListRoute';
+import Home from './Home';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 
@@ -35,7 +36,7 @@ class App extends Component {
       <PrimarySearchAppBar/>
       <ListRoute/>
       </Router>
-        {this.state.uploadScreen}
+        {/* {this.state.uploadScreen} */}
       </div>
     );
   }
