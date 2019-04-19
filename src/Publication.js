@@ -30,12 +30,13 @@ const styles = theme => ({
     marginRight:'auto',
   },
   grid:{
-    marginTop:'15px',
-    marginLeft:'auto',
-    marginRight:'auto',
+   
   },
   card: {
     maxWidth: 400,
+    marginTop:'15px',
+    marginLeft:'auto',
+    marginRight:'auto',
   },
   media: {
     height: 0,
@@ -93,7 +94,7 @@ class Publication extends Component {
       <div className={classes.root}>
         <Grid container spacing={4}>
 
-          <Grid xs={4} className={classes.grid}>
+          <Grid item xs={12} className={classes.grid}>
             <Card  className={classes.card}>
               <CardHeader
                 avatar={

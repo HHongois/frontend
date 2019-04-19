@@ -4,12 +4,14 @@ import { AppBar } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
-import UploadScreen from './UploadScreen';
+import Home from './Home';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { withRouter } from "react-router";
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -86,12 +88,12 @@ class Login extends Component {
       "email": this.state.email,
       "password": this.state.password
     }
-    axios.post(apiBaseUrl + 'connexion/signIn', payload).then(function (response) {
+    axios.post(apiBaseUrl + 'connexion/signIn', payload).then((response) => {
       if (response.status == 200) {
+        console.log(response.data.user)
         console.log("Login successfull");
-        var uploadScreen = [];
-        uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
-        self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
+        console.log(this.props)
+        this.props.history.push('/home');
       }
       else if (response.status == 204) {
         console.log("Username password do not match");
@@ -171,4 +173,14 @@ Login.propTypes = {
 const style = {
   margin: 15,
 };
-export default withStyles(styles)(Login);
+
+function mapStateToProps(state) {
+  const { loggingIn } = state.authentication;
+  console.log(loggingIn);
+  return {
+      loggingIn
+  };
+}
+
+// const connectedLogin = connect(mapStateToProps)(Login);
+export default withRouter(withStyles(styles)(Login));

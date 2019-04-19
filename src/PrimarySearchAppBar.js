@@ -98,7 +98,7 @@ const styles = theme => ({
     lien:{
         color:'white',
         textDecoration: 'none',
-
+        marginRight:'3px',
     }
 });
 
@@ -178,7 +178,7 @@ class PrimarySearchAppBar extends Component {
                             <MenuIcon />
                         </IconButton>
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                        <Button color="white"><Link to={'/home'} className={classes.lien}>Chatgram</Link></Button>
+                        <Link to={'/home'} className={classes.lien}>Chatgram</Link>
             </Typography>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
@@ -194,8 +194,8 @@ class PrimarySearchAppBar extends Component {
                                 onChange={this.handleInputChange}
                             />
                         </div>
-                        <Button color="white"><Link to={'/signIn'} className={classes.lien}>sign In</Link></Button>
-                        <Button color="inherit"><Link to={'/signUp'} className={classes.lien}>sign Up</Link></Button>
+                        <Link to={'/signIn'} className={classes.lien}>sign In</Link>
+                        <Link to={'/signUp'} className={classes.lien}>sign Up</Link>
 
 
                         <div className={classes.grow} />
