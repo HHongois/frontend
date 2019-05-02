@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { AppBar } from 'material-ui';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+
 import axios from 'axios';
-import Home from './Home';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { withRouter } from "react-router";
+import { loginUser } from '../actions/authentication';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -24,6 +18,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+
+
+axios.defaults.baseURL = "http://localhost:4000/api/";
+axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
 
 const styles = theme => ({
   container: {
@@ -77,49 +75,39 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      errors: {}
     }
   }
   handleSubmit(event) {
     event.preventDefault();
-    var apiBaseUrl = "http://localhost:4000/api/";
-    var self = this;
-    var payload = {
-      "email": this.state.email,
-      "password": this.state.password
-    }
-    axios.post(apiBaseUrl + 'connexion/signIn', payload).then((response) => {
-      if (response.status == 200) {
-        console.log(response.data.user)
-        console.log("Login successfull");
-        console.log(this.props)
-        this.props.history.push('/home');
-      }
-      else if (response.status == 204) {
-        console.log("Username password do not match");
-        alert("username password do not match")
-      }
-      else {
-        console.log("Username does not exists");
-        alert("Username does not exist");
-      }
-    })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const user = {
+      email: this.state.email,
+      password: this.state.password,
+  };
+  this.props.loginUser(user);
   }
   handleChangeMail = event => {
-    console.log(event.target.value)
     this.setState({
       email: event.target.value
     });
   }
   handleChangePassword = event => {
-    console.log(event.target.value)
     this.setState({
       password: event.target.value
     });
   }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.auth.isAuthenticated) {
+        this.props.history.push('/home')
+    }
+    if(nextProps.errors) {
+        this.setState({
+            errors: nextProps.errors
+        });
+    }
+}
   render() {
     const { classes } = this.props;
 
@@ -167,20 +155,22 @@ class Login extends Component {
     );
   }
 }
+
 Login.propTypes = {
-  classes: PropTypes.object.isRequired,
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.string.isRequired
 };
 const style = {
   margin: 15,
 };
 
-function mapStateToProps(state) {
-  const { loggingIn } = state.authentication;
-  console.log(loggingIn);
-  return {
-      loggingIn
-  };
-}
 
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+});
 // const connectedLogin = connect(mapStateToProps)(Login);
-export default withRouter(withStyles(styles)(Login));
+// export default withRouter(withStyles(styles)(Login));
+export  default connect(mapStateToProps, { loginUser })(withStyles(styles)(Login))
