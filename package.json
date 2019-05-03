@@ -1,39 +1,50 @@
 {
-  "name": "frontend",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
+    "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "enzyme": "^3.5.0",
+    "enzyme-adapter-react-16": "^1.3.1",
+    "fast-deep-equal": "^2.0.1",
+    "history": "^4.7.2",
+    "immutability-helper": "^2.8.1",
     "jwt-decode": "^2.2.0",
-    "material-ui": "^0.20.2",
-    "material-ui-icons": "^1.0.0-beta.36",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.0.2",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
-    "react-tap-event-plugin": "^3.0.3",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-ga": "^2.5.3",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.5",
+    "react-with-analytics": "0.0.5",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-thunk": "^2.3.0",
+    "uuid": "^3.3.2",
+    "validator": "^10.7.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
-    "redux-devtools-instrument": "^1.9.6"
-  }
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "moxios": "^0.4.0",
+    "react-test-renderer": "^16.4.2",
+    "redux-mock-store": "^1.5.3"
+  },
+  "proxy": "http://localhost:5000"
 }
