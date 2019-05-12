@@ -25,3 +25,8 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_USER = 'GET_USER';
 export const UPDATE_FOLLOWERS = 'UPDATE_FOLLOWERS';
 export const UPDATE_FOLLOWING = 'UPDATE_FOLLOWING';
+
+
+// postsActions
+export const SEND_MSG = 'SEND_MSG';
+export const GET_MSG = 'GET_MSG';

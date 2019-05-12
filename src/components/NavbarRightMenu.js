@@ -70,20 +70,12 @@ class NavbarRightMenu extends Component {
               <MenuItem onClick={this.handleClose}>Profile</MenuItem>
             </ListItem>
           </Link>
-          <Link className={classes.link} to="/discover">
+          <Link className={classes.link} to="/chat">
             <ListItem button>
               <ListItemIcon>
                 <GroupIcon />
               </ListItemIcon>
-              <MenuItem onClick={this.handleClose}>Discover</MenuItem>
-            </ListItem>
-          </Link>
-          <Link style={{ textDecoration: 'none' }} to="/following">
-            <ListItem button>
-              <ListItemIcon>
-                <PeopleIcon />
-              </ListItemIcon>
-              <MenuItem onClick={this.handleClose}>Following</MenuItem>
+              <MenuItem onClick={this.handleClose}>Chat</MenuItem>
             </ListItem>
           </Link>
           <ListItem button>

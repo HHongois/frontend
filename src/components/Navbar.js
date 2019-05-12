@@ -14,17 +14,41 @@ import NavbarLeftMenu from './NavbarLeftMenu';
 import NavbarRightMenu from './NavbarRightMenu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import FaceIcon from '@material-ui/icons/Face';
+import GroupIcon from '@material-ui/icons/GroupAdd';
+import HomeIcon from '@material-ui/icons/Home';
+import PeopleIcon from '@material-ui/icons/People';
+import SettingsIcon from '@material-ui/icons/Settings';
+import MenuItem from '@material-ui/core/MenuItem';
+
 const styles = theme => ({
   flex: {
     // flexGrow: 1
   },
   logo: {
     color: '#fff',
+    textDecoration: 'none',
+    fontSize: '20px',
+  },
+  title: {
+    color: '#fff',
+    textDecoration: 'none',
+    fontSize: '20px',
+    marginRight:200,
+  },
+  link: {
+    outline: 'none',
     textDecoration: 'none'
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  aligner:{
+  marginLeft:200
   },
   root: {
     flexGrow: 1
@@ -41,8 +65,9 @@ const styles = theme => ({
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
+      width: 700,
+    }
+
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
@@ -113,8 +138,8 @@ class Navbar extends Component {
               variant="title"
               color="inherit"
             >
-              <Link className={classes.logo} to="/">
-                Chat Gram
+              <Link className={classes.title} to="/">
+                ChatGram
               </Link>
             </Typography>
             <div className={classes.search}>
@@ -131,90 +156,44 @@ class Navbar extends Component {
               // onChange={this.handleInputChange}
               />
             </div>
-            <Typography className={classes.rightMenu}>
+            {/* <Typography className={classes.rightMenu}>
               <NavbarRightMenu  logoutUser={logoutUser} user={user} />
-            </Typography>
+            </Typography> */}
+            <Typography className={classes.aligner}>
+            <Link className={classes.link} to={`/profile/${user.userId}`}>
+            <ListItem button>
+              <ListItemIcon>
+                <FaceIcon />
+              </ListItemIcon>
+              <MenuItem className={classes.logo} onClick={this.handleClose}>Profile</MenuItem>
+            </ListItem>
+          </Link>
+          </Typography>
+          <Typography>
+          <Link className={classes.link} to="/chat">
+            <ListItem button>
+              <ListItemIcon>
+                <GroupIcon />
+              </ListItemIcon>
+              <MenuItem className={classes.logo} onClick={this.handleClose}>Chat</MenuItem>
+            </ListItem>
+          </Link>
+          </Typography>
+          <Typography>
+          <ListItem button>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <MenuItem className={classes.logo} onClick={logoutUser}>Logout</MenuItem>
+          </ListItem>
+          </Typography>
+          
           </Toolbar>
         </AppBar>
       </div>
     );
   }
 
-  // const { anchorEl } = this.state;
-  //       const { classes } = this.props;
-  //       const isMenuOpen = Boolean(anchorEl);
-
-  //       const renderMenu = (
-  //           <Menu
-  //               anchorEl={anchorEl}
-  //               anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //               open={isMenuOpen}
-  //               onClose={this.handleMenuClose}
-  //           >
-  //               <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-  //               <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-  //           </Menu>
-  //       );
-
-  //       console.log(this.state.query)
-  //       return (
-  //           <div className={classes.root}>
-  //               <AppBar position="static">
-  //                   <Toolbar>
-  //                       <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-  //                           <MenuIcon />
-  //                       </IconButton>
-  //                       <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-  //                       <Link to={'/home'} className={classes.lien}>Chatgram</Link>
-  //           </Typography>
-  //                       <div className={classes.search}>
-  //                           <div className={classes.searchIcon}>
-  //                               <SearchIcon />
-  //                           </div>
-  //                           <InputBase
-  //                               placeholder="Search…"
-  //                               classes={{
-  //                                   root: classes.inputRoot,
-  //                                   input: classes.inputInput,
-  //                               }}
-  //                               ref={InputBase => this.search = InputBase}
-  //                               onChange={this.handleInputChange}
-  //                           />
-  //                       </div>
-  //                       <Link to={'/signIn'} className={classes.lien}>sign In</Link>
-  //                       {/* <Link to={'/signUp'} className={classes.lien}>sign Up</Link> */}
-
-
-  //                       <div className={classes.grow} />
-  //                       <div className={classes.sectionDesktop}>
-  //                           <IconButton color="inherit">
-  //                               <Badge badgeContent={4} color="secondary">
-  //                                   <MailIcon />
-  //                               </Badge>
-  //                           </IconButton>
-  //                           <IconButton color="inherit">
-  //                               <Badge badgeContent={17} color="secondary">
-  //                                   <NotificationsIcon />
-  //                               </Badge>
-  //                           </IconButton>
-  //                           <IconButton
-  //                               aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-  //                               aria-haspopup="true"
-  //                               onClick={this.handleProfileMenuOpen}
-  //                               color="inherit"
-  //                           >
-  //                               <AccountCircle />
-  //                           </IconButton>
-  //                       </div>
-
-  //                   </Toolbar>
-  //               </AppBar>
-  //               {renderMenu}
-
-  //           </div>
-
-  //       );
 }
 
 Navbar.propTypes = {

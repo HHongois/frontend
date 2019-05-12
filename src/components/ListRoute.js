@@ -3,7 +3,7 @@ import createHistory from 'history/createBrowserHistory';
 import { Router, Route, Switch, withRouter } from 'react-router-dom';
 import withAnalytics, { initAnalytics } from 'react-with-analytics';
 
-import DiscoverPage from '../containers/DiscoverPage';
+import ChatPage from './chat/ChatPage';
 import FollowingPage from '../containers/FollowingPage';
 import HomePage from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
@@ -22,7 +22,7 @@ const Root = () => (
     <Route path="/login" component={LoginPage} />
     <Route path="/profile/:id" component={ProfilePage} />
     <Route path="/following" component={FollowingPage} />
-    <Route path="/discover" component={DiscoverPage} />
+    <Route path="/chat" component={ChatPage} />
     <Route path="/settings" component={SettingsPage} />
     <Route component={NotFound} />
   </Switch>

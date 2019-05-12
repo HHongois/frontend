@@ -30,20 +30,20 @@ export const FolderListItems = ({ user }) => (
         <ListItemText primary="Profile" />
       </ListItem>
     </Link>
-    <Link style={{ textDecoration: 'none' }} to="/following">
+    {/* <Link style={{ textDecoration: 'none' }} to="/following">
       <ListItem button>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="Following" />
       </ListItem>
-    </Link>
-    <Link style={{ textDecoration: 'none' }} to="/discover">
+    </Link> */}
+    <Link style={{ textDecoration: 'none' }} to="/chat">
       <ListItem button>
         <ListItemIcon>
           <GroupIcon />
         </ListItemIcon>
-        <ListItemText primary="Discover" />
+        <ListItemText primary="Chat" />
       </ListItem>
     </Link>
   </div>

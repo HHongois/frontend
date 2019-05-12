@@ -21,8 +21,7 @@ class PostList extends Component {
     });
   };
 
-  // If on user X's profile page, only show posts made by user X
-  // Otherwise, show posts made by user X and their followers
+
   checkPageType = (
     followingList,
     onProfilePage,

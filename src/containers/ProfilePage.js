@@ -110,6 +110,7 @@ class ProfilePage extends Component {
   };
 
   componentDidMount = () => {
+    console.log(this.props);
     const { history } = this.props;
     if (!localStorage.jwtToken) {
       return history.push('/login');
@@ -266,7 +267,7 @@ class ProfilePage extends Component {
             </CardContent>
           </Card>
         </div>
-        <Grid container className={classes.root} spacing={16}>
+        {/* <Grid container className={classes.root} spacing={16}>
           <Grid item xs={12}>
             <Grid container justify="center">
               <Paper className={classes.paper}>
@@ -285,7 +286,7 @@ class ProfilePage extends Component {
               </Paper>
             </Grid>
           </Grid>
-        </Grid>
+        </Grid> */}
         <PostFeed onProfilePage match={match} />
         <Modal
           aria-labelledby="modal-title"
