@@ -170,7 +170,7 @@ class Navbar extends Component {
           </Link>
           </Typography>
           <Typography>
-          <Link className={classes.link} to="/chat">
+          <Link className={classes.link} to={`/chat/${user.userId}`}>
             <ListItem button>
               <ListItemIcon>
                 <GroupIcon />

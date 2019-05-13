@@ -55,23 +55,28 @@
 
 .chat-list-container {
     padding: 25px 15px;
-    height: 100%;
+    height: 600px;
     -webkit-box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
 }
 
 .message-container {
-    height: 100%;
+    padding: 25px 15px;
+    height: 600px;
+    -webkit-box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
 }
 
 .message-wrapper {
     height: 100%;
 }
 
-.message-container {
+/* .message-container {
     height: 80%;
-}
+    
+} */
 
 .message-typer {
     height: 20%;
@@ -152,4 +157,15 @@
 
 .message-typer {
     padding-top: 20px;
+}
+#message-container{
+    height:500px;
+    /* background-color: rgb(238, 238, 238); */
+    border: 1px solid rgb(243, 243, 243)
+}
+.message{
+    margin-top:5px;
+    border:none;
+    width:100%;
+    height:60px;
 }

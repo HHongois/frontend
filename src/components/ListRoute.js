@@ -22,7 +22,7 @@ const Root = () => (
     <Route path="/login" component={LoginPage} />
     <Route path="/profile/:id" component={ProfilePage} />
     <Route path="/following" component={FollowingPage} />
-    <Route path="/chat" component={ChatPage} />
+    <Route path="/chat/:id" component={ChatPage} />
     <Route path="/settings" component={SettingsPage} />
     <Route component={NotFound} />
   </Switch>
