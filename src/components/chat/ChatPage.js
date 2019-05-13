@@ -50,12 +50,14 @@ class ChatPage extends Component {
             selectedUser: null
         }
         socket.on('newmsg', function(data) {
-            if(this.state.userId) {
                document.getElementById('message-container').innerHTML += '<div><b>' + 
                   data.user + '</b>: ' + data.message + '</div>'
-            }
          });
-
+         socket.on('connectToRoom',function(data) {
+             console.log(data);
+            document.getElementById('message-container').innerHTML += data;
+            // document.write(data);
+         });
     }
 
     componentDidMount() {
@@ -100,13 +102,15 @@ class ChatPage extends Component {
 
     sendMessage = (event) => {
         if (event.key === 'Enter') {
-            const message = event.target.value;
-            if (message === '' || message === undefined || message === null) {
+            const msg = event.target.value;
+            if (msg === '' || msg === undefined || msg === null) {
                 alert(`Message can't be empty.`);
             } else if (this.state.selectedUser === undefined) {
                 alert(`Select a user to chat.`);
             } else {
-               
+                if(msg) {
+                    socket.emit('msg', {message: msg, user: this.state.userId});
+                 }
                 event.target.value = '';
             }
         }
