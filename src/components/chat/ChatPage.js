@@ -31,33 +31,42 @@ const styles = theme => ({
 });
 
 class ChatPage extends Component {
-
+    state = {
+        isOverlayVisible: true,
+        selectedUser: null,
+        userId: null,
+        username: '',
+        message: '',
+        messages: [],
+        loading: true,
+        selectedUserId: null,
+        chatListUsers: [],
+        messageLoading: true,
+        conversations: [],
+        selectedUser: null,
+        salon:[],
+    }
     constructor(props) {
         super(props);
-
-        this.state = {
-            isOverlayVisible: true,
-            selectedUser: null,
-            userId: null,
-            username: '',
-            message: '',
-            messages: [],
-            loading: true,
-            selectedUserId: null,
-            chatListUsers: [],
-            messageLoading: true,
-            conversations: [],
-            selectedUser: null
-        }
-        socket.on('newmsg', function(data) {
+       
+       
+        socket.on('newmsg', (data) =>{
                document.getElementById('message-container').innerHTML += '<div><b>' + 
                   data.user + '</b>: ' + data.message + '</div>'
-         });
-         socket.on('connectToRoom',function(data) {
-             console.log(data);
-            document.getElementById('message-container').innerHTML += data;
-            // document.write(data);
-         });
+        });
+
+        socket.on('erreur',(data) =>{
+             alert(data);  
+        });
+
+        socket.on('addSalon',(data) => {
+          this.setState({
+              salon : data 
+          })
+        console.log('addSalon')
+        console.log(this.state.salon)
+       });
+
     }
 
     componentDidMount() {
@@ -73,32 +82,35 @@ class ChatPage extends Component {
                     chatListUsers: res.payload,
                 });
             });
+           // console.log(this.state.userId)
+
         }
     }
 
 
-    selectedUser = (user) => {
+    selectedUser = async(user) => {
         this.setState({
             selectedUserId: user._id
         });
-    }
-    updateSelectedUser = (user) => {
-        this.setState({
-            selectedUser: user
-        });
-    }
 
-    getMessages = async () => {
-        try {
-            const { getMsg } = this.props;
-            console.log(this.state.selectedUserId)
-            getMsg(this.state.userId, this.state.selectedUserId).then((res) => {
-                console.log(res.payload);
-            });
-        } catch (error) {
-            console.log(error)
+        if(this.state.selectedUserId){
+            
+            console.log(this.state.selectedUserId,this.state.userId)
+            socket.emit('conversation',{user1: this.state.userId,user2:this.state.selectedUserId});
         }
+        // this.ajoutSalon();
     }
+    // ajoutSalon (){
+    //     socket.on('addSalon',function(data) {
+    //         console.log(data)
+    //       this.setState({
+    //           salon : data 
+    //       })
+    //        console.log(this.state.salon)
+    //    });
+       
+    // }
+
 
     sendMessage = (event) => {
         if (event.key === 'Enter') {
@@ -108,8 +120,8 @@ class ChatPage extends Component {
             } else if (this.state.selectedUser === undefined) {
                 alert(`Select a user to chat.`);
             } else {
-                if(msg) {
-                    socket.emit('msg', {message: msg, user: this.state.userId});
+                if(msg && this.state.salon._id) {
+                    socket.emit('msg', {message: msg, user: this.state.userId,salonId:this.state.salon._id});
                  }
                 event.target.value = '';
             }
