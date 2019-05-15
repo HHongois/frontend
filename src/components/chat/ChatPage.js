@@ -46,14 +46,16 @@ class ChatPage extends Component {
         receiver: null,
         receiverId: null,
         salon: [],
+        listMessages:null
     }
     constructor(props) {
         super(props);
 
 
         socket.on('newmsg', (data) => {
-            document.getElementById('message-container').innerHTML += '<li><b>' +
-                data.user + '</b>: ' + data.message + '</li>'
+            console.log('Ajout message')
+            document.getElementById('message-container').innerHTML +='<li><b>'+data.user +
+            ':</b><span>'+data.message+'</span></li>'
         });
 
         socket.on('erreur', (data) => {
@@ -65,7 +67,6 @@ class ChatPage extends Component {
                 salon: data
             })
             console.log('Nouveau salon')
-            console.log(this.state.salon)
             this.getMessages();
         });
 
@@ -88,11 +89,15 @@ class ChatPage extends Component {
                 });
             });
         }
-        this.getMessages();
+        console.log(this.state.sender,this.state.chatListUsers);
     }
 
 
     selectedUser = async (user) => {
+        console.log(this.state.chatListUsers[0]._id)
+        console.log(this.state.sender._id )
+
+        console.log(this.state.sender._id == this.state.chatListUsers[0]._id )
         this.setState({
             receiver: user,
             receiverId: user._id
@@ -119,29 +124,30 @@ class ChatPage extends Component {
         }
     }
     getMessages = ()=>{
+    var tmp = null;
         if (this.state.salon.length == 0){
-            console.log('Pas de salon')
-            console.log(this.state.salon.length)
-            return null;
+           tmp = <p>Pas de salon</p>;
         }
         else if(this.state.salon.messages.length == 0) {
-            console.log('Pas de message')
-            console.log(this.state.salon.messages)
-            return <p>Aucun message</p>;
+
+            tmp = <p>Pas de messages</p>;
         } else {
-            console.log('get message il y en a ici')
-            console.log(this.state.messages)
-          return this.state.salon.messages.map((message, index) =>
-          <li key={index}>
-              <span>
-                  {message.id}
-              </span>
-              <span>
-                  {message.contenu}
-              </span>
-          </li>
-          );
+
+            tmp =this.state.salon.messages.map((message, index) =>
+                <li
+                key={index}>
+                    <b>
+                        {message.userName} :
+                    </b>
+                    <span>
+                        {message.contenu}
+                    </span>
+                </li>
+                );
         }
+        this.setState({
+            listMessages : tmp
+        })
     }
 
     render() {
@@ -156,7 +162,12 @@ class ChatPage extends Component {
                         <Grid item xs={3} className=" chat-list-container">
                             <ul className={`user-list ${this.state.chatListUsers.length === 0 ? 'visibility-hidden' : ''}`} >
                                 {
-                                    this.state.chatListUsers.map((user, index) =>
+
+                                    this.state.chatListUsers.map((user, index) => 
+
+                                    
+                                    // {this.state.sender &&
+                                    //  {user && this.state && this.state.sender && user._id != this.state.sender._id && 
                                         <li
                                             key={index}
                                             className={this.state.receiverId === user._id ? 'active' : ''}
@@ -165,15 +176,21 @@ class ChatPage extends Component {
                                             {user.name}
                                             <span className={user.online === 'Y' ? 'online' : 'offline'}></span>
                                         </li>
+                                    //     console.log(this.state.sender)
+                                    // console.log( user)
+
+                                    // }
+                                // }
                                     )
                                 }
+                                
                             </ul>
                         </Grid>
                         <Grid item xs={8} className="message-container">
 
                             <ul id="message-container">
                                 {
-                                        this.getMessages()
+                                        this.state.listMessages
                                     
                                 }
                             </ul>
