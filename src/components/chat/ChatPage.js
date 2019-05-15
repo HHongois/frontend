@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import './ListUsers.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllUsers } from '../../actions/userActions';
+import { getAllUsers, getUser } from '../../actions/userActions';
 import Grid from '@material-ui/core/Grid';
 import compose from 'recompose/compose';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -34,7 +34,7 @@ class ChatPage extends Component {
     state = {
         isOverlayVisible: true,
         selectedUser: null,
-        userId: null,
+        send: null,
         username: '',
         message: '',
         messages: [],
@@ -43,88 +43,104 @@ class ChatPage extends Component {
         chatListUsers: [],
         messageLoading: true,
         conversations: [],
-        selectedUser: null,
-        salon:[],
+        receiver: null,
+        receiverId: null,
+        salon: [],
     }
     constructor(props) {
         super(props);
-       
-       
-        socket.on('newmsg', (data) =>{
-               document.getElementById('message-container').innerHTML += '<div><b>' + 
-                  data.user + '</b>: ' + data.message + '</div>'
+
+
+        socket.on('newmsg', (data) => {
+            document.getElementById('message-container').innerHTML += '<li><b>' +
+                data.user + '</b>: ' + data.message + '</li>'
         });
 
-        socket.on('erreur',(data) =>{
-             alert(data);  
+        socket.on('erreur', (data) => {
+            alert(data);
         });
 
-        socket.on('addSalon',(data) => {
-          this.setState({
-              salon : data 
-          })
-        console.log('addSalon')
-        console.log(this.state.salon)
-       });
+        socket.on('addSalon', (data) => {
+            this.setState({
+                salon: data
+            })
+            console.log('Nouveau salon')
+            console.log(this.state.salon)
+            this.getMessages();
+        });
 
     }
 
     componentDidMount() {
-        const { history, getUsers,match } = this.props;
+        const { history, getUsers, match, getUserById } = this.props;
         if (!localStorage.jwtToken) {
             return history.push('/signIn');
         } else {
-            this.setState({
-                userId: match.params.id
-            });
+            getUserById(match.params.id).then((res) => {
+                this.setState({
+                    sender: res.payload.user
+                });
+            })
+
             getUsers().then((res) => {
                 this.setState({
                     chatListUsers: res.payload,
                 });
             });
-           // console.log(this.state.userId)
-
         }
+        this.getMessages();
     }
 
 
-    selectedUser = async(user) => {
+    selectedUser = async (user) => {
         this.setState({
-            selectedUserId: user._id
+            receiver: user,
+            receiverId: user._id
         });
 
-        if(this.state.selectedUserId){
-            
-            console.log(this.state.selectedUserId,this.state.userId)
-            socket.emit('conversation',{user1: this.state.userId,user2:this.state.selectedUserId});
+        if (this.state.receiver) {
+            socket.emit('conversation', { user1: this.state.sender, user2: this.state.receiver });
         }
-        // this.ajoutSalon();
     }
-    // ajoutSalon (){
-    //     socket.on('addSalon',function(data) {
-    //         console.log(data)
-    //       this.setState({
-    //           salon : data 
-    //       })
-    //        console.log(this.state.salon)
-    //    });
-       
-    // }
-
 
     sendMessage = (event) => {
         if (event.key === 'Enter') {
             const msg = event.target.value;
             if (msg === '' || msg === undefined || msg === null) {
                 alert(`Message can't be empty.`);
-            } else if (this.state.selectedUser === undefined) {
+            } else if (this.state.receiver === undefined) {
                 alert(`Select a user to chat.`);
             } else {
-                if(msg && this.state.salon._id) {
-                    socket.emit('msg', {message: msg, user: this.state.userId,salonId:this.state.salon._id});
-                 }
+                if (msg && this.state.salon._id) {
+                    socket.emit('msg', { message: msg, user: this.state.sender.name, salonId: this.state.salon._id });
+                }
                 event.target.value = '';
             }
+        }
+    }
+    getMessages = ()=>{
+        if (this.state.salon.length == 0){
+            console.log('Pas de salon')
+            console.log(this.state.salon.length)
+            return null;
+        }
+        else if(this.state.salon.messages.length == 0) {
+            console.log('Pas de message')
+            console.log(this.state.salon.messages)
+            return <p>Aucun message</p>;
+        } else {
+            console.log('get message il y en a ici')
+            console.log(this.state.messages)
+          return this.state.salon.messages.map((message, index) =>
+          <li key={index}>
+              <span>
+                  {message.id}
+              </span>
+              <span>
+                  {message.contenu}
+              </span>
+          </li>
+          );
         }
     }
 
@@ -136,34 +152,38 @@ class ChatPage extends Component {
                 <div className={classes.root}>
 
 
-                        <Grid container  className="chat-message">
-                            <Grid item xs={3} className=" chat-list-container">
-                                    <ul className={`user-list ${this.state.chatListUsers.length === 0 ? 'visibility-hidden' : ''}`} >
-                                        {
-                                            this.state.chatListUsers.map((user, index) =>
-                                                <li
-                                                    key={index}
-                                                    className={this.state.selectedUserId === user.id ? 'active' : ''}
-                                                    onClick={() => this.selectedUser(user)}
-                                                >
-                                                    {user.name}
-                                                    <span className={user.online === 'Y' ? 'online' : 'offline'}></span>
-                                                </li>
-                                            )
-                                        }
-                                    </ul>
-                            </Grid>
-                            <Grid item xs={8} className="message-container">
-
-                                        <div id="message-container">
-                                        </div>
-
-                                        <textarea className="message" placeholder="Entrez votre message " onKeyPress={this.sendMessage}>
-                                        </textarea>
-                            </Grid>
+                    <Grid container className="chat-message">
+                        <Grid item xs={3} className=" chat-list-container">
+                            <ul className={`user-list ${this.state.chatListUsers.length === 0 ? 'visibility-hidden' : ''}`} >
+                                {
+                                    this.state.chatListUsers.map((user, index) =>
+                                        <li
+                                            key={index}
+                                            className={this.state.receiverId === user._id ? 'active' : ''}
+                                            onClick={() => this.selectedUser(user)}
+                                        >
+                                            {user.name}
+                                            <span className={user.online === 'Y' ? 'online' : 'offline'}></span>
+                                        </li>
+                                    )
+                                }
+                            </ul>
                         </Grid>
+                        <Grid item xs={8} className="message-container">
+
+                            <ul id="message-container">
+                                {
+                                        this.getMessages()
+                                    
+                                }
+                            </ul>
+
+                            <textarea className="message" placeholder="Entrez votre message " onKeyPress={this.sendMessage}>
+                            </textarea>
+                        </Grid>
+                    </Grid>
                 </div>
-               
+
             </div>
         );
     }
@@ -185,6 +205,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getUsers: () => dispatch(getAllUsers()),
+    getUserById: (id) => dispatch(getUser(id)),
     getMsg: (expediteur, destinataire) => dispatch(getMsgUser(expediteur, destinataire))
 
 });

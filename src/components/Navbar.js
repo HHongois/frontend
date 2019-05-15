@@ -165,7 +165,7 @@ class Navbar extends Component {
               <ListItemIcon>
                 <FaceIcon />
               </ListItemIcon>
-              <MenuItem className={classes.logo} onClick={this.handleClose}>Profile</MenuItem>
+              <MenuItem className={classes.logo} onClick={this.handleClose}>{user.name}</MenuItem>
             </ListItem>
           </Link>
           </Typography>
